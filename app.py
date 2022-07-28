@@ -32,9 +32,13 @@ def begin():
 @app.get("/questions/<int:id>")
 def question(id):
     """ populates question page"""
+
+    if id > len(survey.questions):
+        return redirect('/')
+
     survey_question = survey.questions[id].question
     survey_choices = survey.questions[id].choices
-    """ Grabs question """
+
     return render_template('question.html', survey_question=survey_question,
                            survey_choices=survey_choices)
 
@@ -43,8 +47,14 @@ def question(id):
 def add_answer():
     """adds answers to responses list variable"""
     responses.append(request.form['answer'])
-# check for survery is done
+
     if len(responses) == len(survey.questions):
-        return render_template("completion.html")
-    # need id of next question
+        return redirect("/thank_you")
+
     return redirect(f'/questions/{len(responses)}')
+
+
+@app.get('/thank_you')
+def thank_you():
+    """ route to thank you page"""
+    return render_template('completion.html')

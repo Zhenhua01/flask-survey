@@ -30,8 +30,11 @@ def begin():
 def question(id):
     """ populates question page"""
 
-    if id > len(survey.questions):
-        return redirect('/')
+    if len(session["responses"]) == len(survey.questions):
+        return redirect("/thank_you")
+
+    if id > len(session["responses"]):
+        return redirect(f'/questions/{len(session["responses"])}')
 
     """survey_question = survey.questions[id].question
     survey_choices = survey.questions[id].choices"""

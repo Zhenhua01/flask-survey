@@ -10,17 +10,13 @@ debug = DebugToolbarExtension(app)
 
 responses = []
 
-
 @app.get("/")
 def home_page():
     """ Shows survey start page with survey title, survey instructions,
     and start button """
     responses.clear()
-    survey_title = survey.title
-    survey_instructions = survey.instructions
-# inject survey
-    return render_template('survey_start.html', survey_title=survey_title,
-                           survey_instructions=survey_instructions)
+
+    return render_template('survey_start.html', survey = survey)
 
 
 @app.post("/begin")
@@ -36,11 +32,12 @@ def question(id):
     if id > len(survey.questions):
         return redirect('/')
 
-    survey_question = survey.questions[id].question
-    survey_choices = survey.questions[id].choices
+    """survey_question = survey.questions[id].question
+    survey_choices = survey.questions[id].choices"""
 
-    return render_template('question.html', survey_question=survey_question,
-                           survey_choices=survey_choices)
+    return render_template('question.html',
+                            survey_question = survey.questions[id].question,
+                            survey_choices = survey.questions[id].choices)
 
 
 @app.post("/answer")

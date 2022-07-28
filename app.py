@@ -15,10 +15,10 @@ responses = []
 def home_page():
     """ Shows survey start page with survey title, survey instructions,
     and start button """
-
+    responses.clear()
     survey_title = survey.title
     survey_instructions = survey.instructions
-
+# inject survey
     return render_template('survey_start.html', survey_title=survey_title,
                            survey_instructions=survey_instructions)
 

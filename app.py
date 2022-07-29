@@ -28,20 +28,23 @@ def begin():
 
 @app.get("/questions/<int:id>")
 def question(id):
-    """ populates question page"""
+    """ populates question page """
 
     if len(session["responses"]) == len(survey.questions):
         return redirect("/thank_you")
 
-    if id > len(session["responses"]):
+    if id != len(session["responses"]):
+        flash("HEY, QUIT TRYING TO GO TO AN INVALID QUESTION")
+        print("flash is ran")
         return redirect(f'/questions/{len(session["responses"])}')
 
     """survey_question = survey.questions[id].question
-    survey_choices = survey.questions[id].choices"""
+    survey_choices = survey.questions[id].choices
+    ^ code before the re-format"""
 
-    return render_template('question.html',
-                            survey_question = survey.questions[id].question,
-                            survey_choices = survey.questions[id].choices)
+    question = survey.questions[id]
+
+    return render_template('question.html', question = question)
 
 
 @app.post("/answer")
